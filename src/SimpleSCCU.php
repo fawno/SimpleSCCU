@@ -26,29 +26,22 @@
 			fwrite ($fp, $bin);
 			rewind($fp);
 
-			$header = unpack('a4app/Nlength/N2/Ncount/a', fread($fp, 21));
+			$header = unpack('a4app/Nlength/N2/Ncount', fread($fp, 20));
 			if ($header['app'] != 'SCCU') {
         throw new SimpleSCCUException('Invalid app mark', SimpleSCCUException::ERROR_FORMAT_UNKNOWN);
 			}
 
-			do {
-				fseek($fp, -1, SEEK_CUR);
-				$fhead = unpack('a2mark/Nlength/na/Nb', fread($fp, 12));
+			for ($i = $header['count']; $i; $i--) {
+				$fheader = unpack('a2mark/Nlength/na/Nb', fread($fp, 12));
 
-				$key = '';
-				while ("\x00" != $c = fread($fp, 1)) {
-					$key .= $c;
-				}
+				$string = fread($fp, $fheader['length'] - 12);
 
-				$value = '';
-				while ("\x00" != $c = fread($fp, 1)) {
-					$value .= $c;
-				}
+				$key = current(unpack('Z*', $string));
+				$field = unpack(sprintf('Z%ukey/x/Z*value', strlen($key)), $string);
 
-				$fields[$key] = $value;
+				$fields[$key] = $field['value'];
+			}
 
-				while ("\x00" == fread($fp, 1));
-			} while (!feof($fp));
 			fclose($fp);
 
 			return $fields;
