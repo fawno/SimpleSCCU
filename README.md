@@ -9,7 +9,7 @@
 
 # SimpleSCCU
 
-Simple PHP class for IPTC documents
+Simple PHP class for SCCU documents
 
 ## Instalation
 
