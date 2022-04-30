@@ -1,0 +1,22 @@
+{
+    "name": "fawno/simplesccu",
+    "description": "Simple PHP class for SCCU documents",
+    "type": "library",
+    "keywords": ["sccu", "sccu-metadata"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fernando Herrero",
+            "homepage": "https://lab.fawno.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleSCCU\\": "src/"
+        }
+    }
+}
