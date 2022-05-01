@@ -1,6 +1,5 @@
 [![GitHub license](https://img.shields.io/github/license/fawno/SimpleSCCU)](https://github.com/fawno/SimpleSCCU/blob/master/LICENSE)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/fawno/SimpleSCCU)](https://github.com/fawno/SimpleSCCU/tags)
-[![GitHub release](https://img.shields.io/github/release/fawno/SimpleSCCU)](https://github.com/fawno/SimpleSCCU/releases)
 [![Packagist](https://img.shields.io/packagist/v/fawno/simplesccu)](https://packagist.org/packages/fawno/simplesccu)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/fawno/simplesccu)](https://packagist.org/packages/fawno/simplesccu/stats)
 [![GitHub issues](https://img.shields.io/github/issues/fawno/SimpleSCCU)](https://github.com/fawno/SimpleSCCU/issues)
