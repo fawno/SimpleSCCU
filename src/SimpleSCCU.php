@@ -26,13 +26,13 @@
 			fwrite ($fp, $bin);
 			rewind($fp);
 
-			$header = unpack('a4app/Nlength/N2/Ncount', fread($fp, 20));
+			$header = unpack('a4app/Nlength/nver/x6/Ncount', fread($fp, 20));
 			if ($header['app'] != 'SCCU') {
         throw new SimpleSCCUException('Invalid app mark', SimpleSCCUException::ERROR_FORMAT_UNKNOWN);
 			}
 
 			for ($i = $header['count']; $i; $i--) {
-				$fheader = unpack('a2mark/Nlength/na/Nb', fread($fp, 12));
+				$fheader = unpack('a2start/Nlength/nmark/x4', fread($fp, 12));
 
 				$string = fread($fp, $fheader['length'] - 12);
 
@@ -48,19 +48,15 @@
 		}
 
     public static function pack (array $fields) : string {
-      $sccu = pack('N*', 0x10000, 0, count($fields));
+      $sccu = pack('nx6N', 1, count($fields));
 
       foreach ($fields as $key => $value) {
-        $mark = (strlen($key) < 10) ? "\x00\x0C" : "\x00\x16";
-        $mark .= "\x00\x00\x00\x00";
+        $mark = (strlen($key) < 10) ? 0x0C : 0x16;
 
-        $lenght = strlen($key . $value) + 13;
-        $end = 2 - ($lenght % 2);
-        $lenght += $end;
+        $end = strlen($key . $value) % 2;
+        $lenght = strlen($key . $value) + $end + 14;
 
-        $sccu .= '[[' . pack('N*', $lenght) . $mark;
-        $sccu .= $key . "\x00";
-        $sccu .= $value . str_repeat("\x00", $end);
+        $sccu .= '[[' . pack('Nnx4Z*Z*x' . $end, $lenght, $mark, $key, $value);
       }
 
       $sccu = 'SCCU' . pack('N*', strlen($sccu) + 8) . $sccu;

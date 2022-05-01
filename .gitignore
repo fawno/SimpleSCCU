@@ -3,8 +3,8 @@
 /config/app.php
 /config/.env
 /logs/*
-/tmp/*
-/vendor/*
+/tmp/
+/vendor/
 /webroot/files/*
 
 # OS generated files #
